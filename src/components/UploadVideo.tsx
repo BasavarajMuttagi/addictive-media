@@ -24,7 +24,7 @@ const UploadVideo = ({
   const handleUpload = async () => {
     try {
       setIsUploading(true);
-      const result = await apiClient.post("/upload/getSignedUrl", {
+      const result = await apiClient.post("/getPresignedUrl", {
         fileName: selectedFile?.name,
         fileType: selectedFile?.type,
         fileSize: selectedFile?.size,
