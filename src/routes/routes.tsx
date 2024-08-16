@@ -5,8 +5,8 @@ import Public from "./Public";
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
 import Private from "./Private";
-import HomeLayout from "../layouts/HomeLayout";
-import Home from "../pages/Home";
+import MainLayout from "../layouts/MainLayout";
+import User from "../pages/User";
 
 const routes = createBrowserRouter([
   {
@@ -28,14 +28,14 @@ const routes = createBrowserRouter([
   },
   {
     element: (
-      <HomeLayout>
+      <MainLayout>
         <Private />
-      </HomeLayout>
+      </MainLayout>
     ),
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <User />,
       },
     ],
   },

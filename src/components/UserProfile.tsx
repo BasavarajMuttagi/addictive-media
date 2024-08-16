@@ -4,7 +4,7 @@ import useAddictiveStore from "../store";
 const UserProfile = () => {
   const { displayName, email, phone } = useAddictiveStore();
   return (
-    <div className="text-gray-300 bg-black p-5 font-medium relative">
+    <div className="text-gray-300 bg-neutral-900 p-5 font-medium relative">
       <div className="flex flex-col  space-y-5">
         <img
           src="https://ukmars.org/ukmars/wp-content/uploads/2020/07/pexels-photo-4709374.jpeg"

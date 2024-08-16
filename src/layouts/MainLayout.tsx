@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import UserProfile from "../components/UserProfile";
+import Navbar from "../components/Navbar";
 
 const HomeLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -7,8 +7,8 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
       className="min-h-screen flex flex-col overflow-y-auto"
       style={{ scrollbarWidth: "thin" }}
     >
-      <UserProfile />
-      <div className="flex-1">{children}</div>
+      <Navbar />
+      <div className="flex-1 bg-neutral-900">{children}</div>
     </div>
   );
 };
