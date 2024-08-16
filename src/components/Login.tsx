@@ -11,7 +11,7 @@ import useFusionStore from "../store";
 import { UserLoginType, UserLoginSchema } from "../zod/schema";
 const Login = () => {
   const navigate = useNavigate();
-  const { setToken, setDisplayName, setEmail } = useFusionStore();
+  const { setToken, setDisplayName, setEmail, setPhone } = useFusionStore();
   const [isSpin, setIsSpin] = useState(false);
 
   const loc = useLocation();
@@ -29,10 +29,11 @@ const Login = () => {
       setIsSpin(true);
       const response = await apiClient.post("/auth/login", data);
       const { message, user, token } = response.data;
-      toast.success(message);
       setToken(token);
       setDisplayName(user.fullname);
       setEmail(user.email);
+      setPhone(user.phone);
+      toast.success(message);
       reset();
       navigate("/", { replace: true });
     } catch (error) {
