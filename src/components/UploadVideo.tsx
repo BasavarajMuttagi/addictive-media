@@ -4,7 +4,7 @@ import apiClient from "../axios/apiClient";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
 import axios from "axios";
-
+const MAX_VIDEO_SIZE = 6 * 1024 * 1024;
 const UploadVideo = ({
   closeDialog,
 }: {
@@ -21,6 +21,14 @@ const UploadVideo = ({
     }
   };
 
+  const handleFileSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      if (e.target.files[0]["size"] > MAX_VIDEO_SIZE) {
+        return toast.error("File size is greater than 6MB");
+      }
+      setSelectedFile(e.target.files[0]);
+    }
+  };
   const handleUpload = async () => {
     try {
       setIsUploading(true);
@@ -73,11 +81,7 @@ const UploadVideo = ({
                 className="hidden"
                 accept=".mp4"
                 multiple={false}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    setSelectedFile(e.target.files[0]);
-                  }
-                }}
+                onChange={handleFileSelection}
               />
             </label>
             <p className="text-xs text-neutral-500">
