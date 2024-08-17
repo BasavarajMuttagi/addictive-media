@@ -33,8 +33,15 @@ const UserLoginSchema = z.object({
     .max(10, { message: "password cannot be more than 10 digits" }),
 });
 
+const FileUploadSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+});
+
+type FileUploadSchemaType = z.infer<typeof FileUploadSchema>;
+
 type UserLoginType = z.infer<typeof UserLoginSchema>;
 
 type UserSignUpType = z.infer<typeof UserSignUpSchema>;
-export type { UserSignUpType, UserLoginType };
-export { UserSignUpSchema, UserLoginSchema };
+export type { UserSignUpType, UserLoginType, FileUploadSchemaType };
+export { UserSignUpSchema, UserLoginSchema, FileUploadSchema };

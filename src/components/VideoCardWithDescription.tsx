@@ -1,22 +1,23 @@
-const VideoCardWithDescription = () => {
+import { VideoType } from "./Uploads";
+
+const VideoCardWithDescription = ({
+  folder,
+  description,
+  title,
+}: VideoType) => {
+  const URL = `${import.meta.env.VITE_CLOUDFRONT_BASE_URL}/${folder}`;
   return (
     <div className="flex items-center space-x-4 p-1">
-      <img
-        src="https://images.pexels.com/photos/15286/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt="thumbnail"
+      <video
+        onClick={() => window.open(URL)}
         className="aspect-video h-[100px] rounded-md"
-      />
-
+      >
+        <source src={URL} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       <div className="space-y-2 text-white/60">
-        <div className="font-medium">How to get Rich</div>
-        <div className="text-white/40 text-sm font-normal">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Adipisci
-          officiis aliquid impedit. Asperiores voluptatibus impedit quisquam.
-          Voluptatum maiores blanditiis quidem sequi reiciendis quibusdam, culpa
-          delectus assumenda, neque consectetur commodi modi ab quas magni, esse
-          iste quis dolore. Odit nam nesciunt amet ipsa illum error, deleniti
-          consequuntur commodi! Laudantium, dolor fuga?
-        </div>
+        <div className="font-medium">{title}</div>
+        <div className="text-white/40 text-sm font-normal">{description}</div>
       </div>
     </div>
   );
