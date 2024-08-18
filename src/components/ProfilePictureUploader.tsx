@@ -4,10 +4,13 @@ import apiClient from "../axios/apiClient";
 import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
 import axios, { isAxiosError } from "axios";
+import { poll } from "../axios/common";
 
 const ProfilePictureUploader = ({
+  refetchProfile,
   closeDialog,
 }: {
+  refetchProfile: () => void;
   closeDialog: Dispatch<SetStateAction<boolean>>;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,9 +58,15 @@ const ProfilePictureUploader = ({
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(progressEvent.progress! * 100);
           setUploadProgress(percentCompleted);
-          console.log(`Upload Progress: ${percentCompleted}%`);
         },
       });
+
+      await poll(2000, 10, "image", {
+        filename: selectedFile.name,
+        filesize: selectedFile.size,
+      });
+      refetchProfile();
+      closeDialog(false);
     } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error.response?.data.message);

@@ -34,7 +34,7 @@ const routes = createBrowserRouter([
     ),
     children: [
       {
-        path: "/",
+        path: "/profile",
         element: <User />,
       },
     ],

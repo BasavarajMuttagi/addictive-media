@@ -5,7 +5,7 @@ const poll = (
   interval: number,
   times: number,
   type: "image" | "video",
-  data: FileUploadSchemaType,
+  data: FileUploadSchemaType | { filename: string; filesize: number },
 ): Promise<void> => {
   return new Promise((resolve) => {
     let count = 0;

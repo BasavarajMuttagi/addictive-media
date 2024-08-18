@@ -20,7 +20,7 @@ const Uploads = () => {
   const [showUploadPopUp, setShowUploadPopUp] = useState(false);
   const [videos, setVideos] = useState<VideoType[]>([]);
   const getAllVideos = async () => {
-    const result = await apiClient.get("/video/list");
+    const result = await apiClient.get("/video/getVideos");
     setVideos(result.data);
   };
 

@@ -1,18 +1,29 @@
 import { EnvelopeSimple, Phone } from "@phosphor-icons/react";
-import useAddictiveStore from "../store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import ProfilePictureUploader from "./ProfilePictureUploader";
 import UpdateBio from "./UpdateBio";
+import apiClient from "../axios/apiClient";
+import { Profile } from "../types";
 const defaultAvatar = "https://avatar.iran.liara.run/public/35";
 const UserProfile = () => {
   const [showUploadPopUp, setShowUploadPopUp] = useState(false);
   const [showBioPopUp, setShowBioPopUp] = useState(false);
+  const [profile, setProfile] = useState<Profile>();
 
-  const {
-    user: { displayName, email, phone, photoUrl, bio },
-  } = useAddictiveStore();
-  const URL = `${import.meta.env.VITE_CLOUDFRONT_BASE_URL}/${photoUrl}`;
+  const getProfile = async () => {
+    const result = await apiClient.get("/auth/getProfile");
+    setProfile(result.data);
+  };
+
+  const refetchProfile = () => {
+    getProfile();
+  };
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const URL = `${import.meta.env.VITE_CLOUDFRONT_BASE_URL}/${profile?.photoUrl}`;
   return (
     <>
       <div className="text-gray-300 bg-neutral-900 p-5 font-medium relative">
@@ -25,22 +36,22 @@ const UserProfile = () => {
           />
           <div>
             <div className="text-2xl font-bold tracking-wide">
-              {displayName}
+              {`${profile?.firstname} ${profile?.lastname}`}
             </div>
             <div className="flex items-center space-x-2">
               <EnvelopeSimple weight="bold" size={20} />
-              <span>{email}</span>
+              <span>{profile?.email}</span>
             </div>
             <div className="flex items-center space-x-2">
               <Phone size={20} weight="bold" />
-              <span>{phone}</span>
+              <span>{profile?.phone}</span>
             </div>
             <div className="mt-4">
               <span
                 className="text-blue-500 cursor-pointer"
                 onClick={() => setShowBioPopUp((prev) => !prev)}
               >
-                {bio ?? (
+                {profile?.bio ?? (
                   <p>
                     Add Your Bio, Tell us more about yourself to complete your
                     profile.
@@ -54,7 +65,10 @@ const UserProfile = () => {
       {showUploadPopUp &&
         createPortal(
           <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 p-3">
-            <ProfilePictureUploader closeDialog={setShowUploadPopUp} />
+            <ProfilePictureUploader
+              closeDialog={setShowUploadPopUp}
+              refetchProfile={refetchProfile}
+            />
           </div>,
           document.body,
         )}
@@ -62,7 +76,10 @@ const UserProfile = () => {
       {showBioPopUp &&
         createPortal(
           <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 p-3">
-            <UpdateBio closeDialog={setShowBioPopUp} />
+            <UpdateBio
+              closeDialog={setShowBioPopUp}
+              refetchProfile={refetchProfile}
+            />
           </div>,
           document.body,
         )}

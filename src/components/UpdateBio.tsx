@@ -6,14 +6,14 @@ import { bioType, bioSchema } from "../zod/schema";
 import { isAxiosError } from "axios";
 import toast from "react-hot-toast";
 import apiClient from "../axios/apiClient";
-import useAddictiveStore from "../store";
 
 const UpdateBio = ({
+  refetchProfile,
   closeDialog,
 }: {
+  refetchProfile: () => void;
   closeDialog: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { setUser, user } = useAddictiveStore();
   const [isSpin, setIsSpin] = useState(false);
   const {
     register,
@@ -27,9 +27,8 @@ const UpdateBio = ({
   const submit = async (data: bioType) => {
     try {
       setIsSpin(true);
-      const result = await apiClient.post("/auth/bio/update", data);
-      const bio = result.data.bio;
-      setUser({ ...user, bio });
+      await apiClient.post("/auth/bio/update", data);
+      refetchProfile();
       reset();
       closeDialog(false);
     } catch (error) {
@@ -48,7 +47,7 @@ const UpdateBio = ({
     >
       <div className="flex justify-end">
         <div
-          className="p-1 rounded-full bg-zinc-100/30 cursor-pointer"
+          className="p-1 rounded-full bg-zinc-100 cursor-pointer"
           onClick={() => closeDialog((prev) => !prev)}
         >
           <X size={16} className="text-black" />

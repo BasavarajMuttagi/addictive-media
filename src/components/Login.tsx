@@ -1,20 +1,19 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleNotch } from "@phosphor-icons/react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import apiClient from "../axios/apiClient";
 import { isAxiosError } from "axios";
 import toast from "react-hot-toast";
-import useFusionStore from "../store";
-
 import { UserLoginType, UserLoginSchema } from "../zod/schema";
+import useAddictiveStore from "../store";
+
 const Login = () => {
   const navigate = useNavigate();
-  const { setToken, setUser } = useFusionStore();
+  const { setToken } = useAddictiveStore();
   const [isSpin, setIsSpin] = useState(false);
 
-  const loc = useLocation();
   const {
     register,
     reset,
@@ -28,9 +27,8 @@ const Login = () => {
     try {
       setIsSpin(true);
       const response = await apiClient.post("/auth/login", data);
-      const { message, user, token } = response.data;
+      const { message, token } = response.data;
       setToken(token);
-      setUser(user);
       toast.success(message);
       reset();
       navigate("/", { replace: true });
@@ -44,13 +42,6 @@ const Login = () => {
       setIsSpin(false);
     }
   };
-
-  useEffect(() => {
-    const state = loc.state;
-    if (state && state.error) {
-      toast.error(state.error);
-    }
-  }, [loc]);
 
   return (
     <div className="max-w-sm w-full text-gray-700 space-y-5">
