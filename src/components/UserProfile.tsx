@@ -29,7 +29,7 @@ const UserProfile = () => {
       <div className="text-gray-300 bg-neutral-900 p-5 font-medium relative">
         <div className="flex flex-col  space-y-5">
           <img
-            src={URL || defaultAvatar}
+            src={profile?.photoUrl ? URL : defaultAvatar}
             alt="profile"
             className="aspect-square h-24 w-24 rounded-full border-2 border-green-500 cursor-pointer"
             onClick={() => setShowUploadPopUp((prev) => !prev)}

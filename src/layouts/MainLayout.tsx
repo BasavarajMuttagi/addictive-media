@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import Navbar from "../components/Navbar";
 
-const HomeLayout = ({ children }: { children: ReactNode }) => {
+const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div
       className="min-h-screen flex flex-col overflow-y-auto"
@@ -13,4 +13,4 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default HomeLayout;
+export default MainLayout;

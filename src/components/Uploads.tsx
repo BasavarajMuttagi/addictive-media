@@ -4,18 +4,8 @@ import { createPortal } from "react-dom";
 import { Fragment, useEffect, useState } from "react";
 import UploadForm from "./UploadForm";
 import apiClient from "../axios/apiClient";
+import { VideoType } from "../types";
 
-export type VideoType = {
-  _id: string;
-  folder: string;
-  filename: string;
-  filetype: string;
-  userid: string;
-  filesize: number;
-  description: string;
-  title: string;
-  __v: number;
-};
 const Uploads = () => {
   const [showUploadPopUp, setShowUploadPopUp] = useState(false);
   const [videos, setVideos] = useState<VideoType[]>([]);

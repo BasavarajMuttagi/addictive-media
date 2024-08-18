@@ -7,6 +7,7 @@ import Login from "../components/Login";
 import Private from "./Private";
 import MainLayout from "../layouts/MainLayout";
 import User from "../pages/User";
+import Home from "../pages/Home";
 
 const routes = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const routes = createBrowserRouter([
       </MainLayout>
     ),
     children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
       {
         path: "/profile",
         element: <User />,

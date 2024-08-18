@@ -4,7 +4,14 @@ export type Profile = {
   lastname: string;
   email: string;
   phone: string;
-  createdAt: string;
   photoUrl: string;
   bio: string;
+};
+
+export type VideoType = {
+  _id: string;
+  folder: string;
+  userid: string;
+  description: string;
+  title: string;
 };

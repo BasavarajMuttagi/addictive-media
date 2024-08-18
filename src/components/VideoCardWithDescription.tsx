@@ -1,4 +1,4 @@
-import { VideoType } from "./Uploads";
+import { VideoType } from "../types";
 
 const VideoCardWithDescription = ({
   folder,
