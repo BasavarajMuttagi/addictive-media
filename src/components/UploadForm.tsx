@@ -63,12 +63,11 @@ const UploadForm = ({
       clearSelection();
       closeDialog(false);
     } catch (error) {
-      console.log(error);
       if (isAxiosError(error)) {
-        toast.error(error.response?.data.error);
+        toast.error(error.response?.data.message);
         return;
       }
-      toast.error("Something Went Wrong");
+      return toast.error("Something Went Wrong");
     } finally {
       setIsUploading(false);
     }

@@ -6,42 +6,39 @@ const storageModule = {
   storage: createJSONStorage(() => sessionStorage),
 };
 
-type store = {
-  token: string;
+type user = {
   displayName: string;
   email: string;
   phone: string;
+  photoUrl: string;
+  bio: string;
+};
+type store = {
+  token: string;
+  user: user;
   setToken: (newToken: string) => void;
-  setDisplayName: (name: string) => void;
-  setEmail: (email: string) => void;
-  setPhone: (phone: string) => void;
+  setUser: (newUser: user) => void;
   logout: () => void;
-  reset: () => void;
 };
 
+const userInitialState = {
+  displayName: "",
+  email: "",
+  phone: "",
+  photoUrl: "",
+  bio: "",
+};
 const useAddictiveStore = create<store>()(
   persist(
     (set) => ({
       token: "",
-      displayName: "",
-      email: "",
-      phone: "",
+      user: userInitialState,
       setToken: (newToken) => set(() => ({ token: newToken })),
-      setDisplayName: (name: string) => set(() => ({ displayName: name })),
-      setEmail: (email: string) => set(() => ({ email })),
-      setPhone: (phone: string) => set(() => ({ phone })),
+      setUser: (newUser) => set(() => ({ user: newUser })),
       logout: () => {
         set(() => ({
           token: "",
-          displayName: "",
-          email: "",
-        }));
-      },
-      reset: () => {
-        set(() => ({
-          token: "",
-          displayName: "",
-          email: "",
+          user: userInitialState,
         }));
       },
     }),

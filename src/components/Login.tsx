@@ -11,7 +11,7 @@ import useFusionStore from "../store";
 import { UserLoginType, UserLoginSchema } from "../zod/schema";
 const Login = () => {
   const navigate = useNavigate();
-  const { setToken, setDisplayName, setEmail, setPhone } = useFusionStore();
+  const { setToken, setUser } = useFusionStore();
   const [isSpin, setIsSpin] = useState(false);
 
   const loc = useLocation();
@@ -30,18 +30,16 @@ const Login = () => {
       const response = await apiClient.post("/auth/login", data);
       const { message, user, token } = response.data;
       setToken(token);
-      setDisplayName(user.fullname);
-      setEmail(user.email);
-      setPhone(user.phone);
+      setUser(user);
       toast.success(message);
       reset();
       navigate("/", { replace: true });
+      location.reload();
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error.response?.data.message || "Something went wrong");
-      } else {
-        toast.error("Something went wrong");
+        return toast.error(error.response?.data.message);
       }
+      return toast.error("Something went wrong");
     } finally {
       setIsSpin(false);
     }

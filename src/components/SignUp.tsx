@@ -29,10 +29,9 @@ const SignUp = () => {
       navigate("/login");
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error.response?.data.message || "Something went wrong");
-      } else {
-        toast.error("Something went wrong");
+        return toast.error(error.response?.data.message);
       }
+      return toast.error("Something went wrong");
     } finally {
       setIsSpin(false);
     }
@@ -98,32 +97,6 @@ const SignUp = () => {
           {errors.phone && (
             <p className="text-red-400 text-xs absolute -bottom-4">
               {errors.phone.message}
-            </p>
-          )}
-        </div>
-        <div className="relative">
-          <input
-            {...register("password")}
-            type="text"
-            placeholder="Password"
-            className="outline-none p-2 rounded-md border w-full placeholder:text-gray-400"
-          />
-          {errors.password && (
-            <p className="text-red-400 text-xs absolute -bottom-4">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
-        <div className="relative">
-          <input
-            {...register("confirmpassword")}
-            type="text"
-            placeholder="Confirm Password"
-            className="outline-none p-2 rounded-md border w-full placeholder:text-gray-400"
-          />
-          {errors.confirmpassword && (
-            <p className="text-red-400 text-xs absolute -bottom-4">
-              {errors.confirmpassword.message}
             </p>
           )}
         </div>

@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import useFusionStore from "../store";
+import useAddictiveStore from "../store";
 
 export type tokenType = {
   userId: string;
@@ -10,8 +10,8 @@ export type tokenType = {
   exp: number;
 };
 function Private() {
-  const token = useFusionStore((e) => e.token);
-  const setToken = useFusionStore((e) => e.setToken);
+  const token = useAddictiveStore((e) => e.token);
+  const setToken = useAddictiveStore((e) => e.setToken);
 
   if (!token) {
     return <Navigate to={"/login"} />;
