@@ -21,12 +21,21 @@ const UserLoginSchema = z.object({
 });
 
 const FileUploadSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(30, "Title is too long, expeced 30 characters"),
+  description: z
+    .string()
+    .min(1, "Description is required")
+    .max(120, "Description is too long, expeced 120 characters"),
 });
 
 const bioSchema = z.object({
-  bio: z.string().min(1, "Title is required"),
+  bio: z
+    .string()
+    .min(1, "bio is required")
+    .max(500, "bio is too long, expeced 500 characters"),
 });
 
 type bioType = z.infer<typeof bioSchema>;

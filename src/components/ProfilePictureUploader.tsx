@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
 import axios, { isAxiosError } from "axios";
 
-const ProfileUploader = ({
+const ProfilePictureUploader = ({
   closeDialog,
 }: {
   closeDialog: Dispatch<SetStateAction<boolean>>;
@@ -18,6 +18,23 @@ const ProfileUploader = ({
     setSelectedFile(null);
     if (fileInputRef && fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleImageSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const image = new Image();
+      image.src = URL.createObjectURL(file);
+
+      image.onload = () => {
+        if (image.width === 500 && image.height === 500) {
+          setSelectedFile(file);
+        } else {
+          toast.error("Image must be 500x500 pixels");
+          Clear();
+        }
+      };
     }
   };
 
@@ -71,7 +88,7 @@ const ProfileUploader = ({
                 className="mx-auto fill-green-400"
               />
               <div className="px-5 py-2 font-medium rounded-full bg-zinc-100 text-zinc-900 hover:bg-zinc-300">
-                select files
+                select image file
               </div>
               <input
                 ref={fileInputRef}
@@ -80,11 +97,7 @@ const ProfileUploader = ({
                 className="hidden"
                 accept=".jpg"
                 multiple={false}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    setSelectedFile(e.target.files[0]);
-                  }
-                }}
+                onChange={handleImageSelection}
               />
             </label>
             <p className="text-xs text-neutral-500">
@@ -142,4 +155,4 @@ const ProfileUploader = ({
   );
 };
 
-export default ProfileUploader;
+export default ProfilePictureUploader;
