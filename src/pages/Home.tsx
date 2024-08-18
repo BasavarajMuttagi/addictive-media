@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import apiClient from "../axios/apiClient";
 import { VideoGroup } from "../types";
-import VideoCardWithTitle from "../components/VideoCardWIthTitle";
+import VideoCardWithTitle from "../components/VideoCardWithTitle";
 import { defaultAvatar } from "../components/UserProfile";
 import { Link } from "react-router-dom";
 
