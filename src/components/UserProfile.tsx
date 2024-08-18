@@ -5,7 +5,7 @@ import ProfilePictureUploader from "./ProfilePictureUploader";
 import UpdateBio from "./UpdateBio";
 import apiClient from "../axios/apiClient";
 import { Profile } from "../types";
-const defaultAvatar = "https://avatar.iran.liara.run/public/35";
+export const defaultAvatar = "https://avatar.iran.liara.run/public/35";
 const UserProfile = () => {
   const [showUploadPopUp, setShowUploadPopUp] = useState(false);
   const [showBioPopUp, setShowBioPopUp] = useState(false);

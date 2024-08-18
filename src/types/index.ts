@@ -15,3 +15,8 @@ export type VideoType = {
   description: string;
   title: string;
 };
+
+export type VideoGroup = {
+  videos: VideoType[];
+  user: Omit<Profile, "email" | "phone" | "bio">;
+};
