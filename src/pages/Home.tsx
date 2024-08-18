@@ -3,6 +3,7 @@ import apiClient from "../axios/apiClient";
 import { VideoGroup } from "../types";
 import VideoCardWithTitle from "../components/VideoCardWIthTitle";
 import { defaultAvatar } from "../components/UserProfile";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [videos, setVideos] = useState<VideoGroup[]>([]);
@@ -34,7 +35,11 @@ const Home = () => {
                   </div>
                   <div className="text-neutral-400">|</div>
                   <div className="text-blue-500 font-medium cursor-pointer">
-                    view all
+                    <Link
+                      to={`${eachGroup.user._id}/${eachGroup.user.firstname}${eachGroup.user.lastname}`}
+                    >
+                      view all
+                    </Link>
                   </div>
                 </div>
               </div>

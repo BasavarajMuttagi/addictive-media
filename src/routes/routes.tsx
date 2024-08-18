@@ -8,6 +8,7 @@ import Private from "./Private";
 import MainLayout from "../layouts/MainLayout";
 import User from "../pages/User";
 import Home from "../pages/Home";
+import ShowVideosById from "../components/ShowVideosById";
 
 const routes = createBrowserRouter([
   {
@@ -41,6 +42,11 @@ const routes = createBrowserRouter([
       {
         path: "/profile",
         element: <User />,
+      },
+
+      {
+        path: "/:userId/:name",
+        element: <ShowVideosById />,
       },
     ],
   },
