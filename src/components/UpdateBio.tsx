@@ -10,9 +10,11 @@ import apiClient from "../axios/apiClient";
 const UpdateBio = ({
   refetchProfile,
   closeDialog,
+  bio,
 }: {
   refetchProfile: () => void;
   closeDialog: Dispatch<SetStateAction<boolean>>;
+  bio: string;
 }) => {
   const [isSpin, setIsSpin] = useState(false);
   const {
@@ -22,6 +24,9 @@ const UpdateBio = ({
     formState: { errors },
   } = useForm<bioType>({
     resolver: zodResolver(bioSchema),
+    defaultValues: {
+      bio,
+    },
   });
 
   const submit = async (data: bioType) => {

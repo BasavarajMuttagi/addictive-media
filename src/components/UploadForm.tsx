@@ -7,6 +7,7 @@ import axios, { isAxiosError } from "axios";
 import apiClient from "../axios/apiClient";
 import { X, CircleNotch } from "@phosphor-icons/react";
 import { poll } from "../axios/common";
+import { twMerge } from "tailwind-merge";
 
 const UploadForm = ({
   closeDialog,
@@ -15,6 +16,7 @@ const UploadForm = ({
   closeDialog: React.Dispatch<React.SetStateAction<boolean>>;
   refetch: () => void;
 }) => {
+  const controllerRef = useRef<AbortController>(new AbortController());
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,10 +58,10 @@ const UploadForm = ({
       const result = await apiClient.post("/video/getPresignedUrl", body);
       const { url } = result.data as { url: string };
       await axios.put(url, selectedFile, {
+        signal: controllerRef.current.signal,
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(progressEvent.progress! * 100);
           setUploadProgress(percentCompleted);
-          console.log(`Upload Progress: ${percentCompleted}%`);
         },
       });
 
@@ -73,7 +75,7 @@ const UploadForm = ({
       });
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error.response?.data.message);
+        toast.error(error.response?.data.message || `Upload cancelled`);
         return;
       }
       return toast.error("Something Went Wrong");
@@ -88,8 +90,6 @@ const UploadForm = ({
       fileInputRef.current.value = "";
     }
   };
-
-  console.log(errors);
   return (
     <form
       className="text-white/50 max-w-lg w-full bg-neutral-800 space-y-10 rounded-md flex flex-col justify-between p-4 border-2 border-neutral-700/30"
@@ -97,8 +97,12 @@ const UploadForm = ({
     >
       <div className="flex justify-end">
         <div
-          className="p-1 rounded-full bg-zinc-100/30 cursor-pointer"
-          onClick={() => closeDialog((prev) => !prev)}
+          className="p-1 rounded-full bg-zinc-100 cursor-pointer"
+          onClick={() => {
+            controllerRef.current.abort();
+            controllerRef.current = new AbortController();
+            closeDialog(false);
+          }}
         >
           <X size={16} className="text-black" />
         </div>
@@ -151,11 +155,16 @@ const UploadForm = ({
         <button
           type="button"
           onClick={clearSelection}
-          className="p-2 w-full text-white bg-blue-500 rounded-md space-x-2 flex items-center justify-center"
+          disabled={isUploading}
+          className={twMerge(
+            "p-2 w-full text-white bg-blue-500 rounded-md space-x-2 flex items-center justify-center",
+            isUploading ? "brightness-50" : "",
+          )}
         >
           <span className="font-medium">Clear</span>
         </button>
         <button
+          disabled={isUploading}
           type="submit"
           className="p-2 w-full text-white bg-violet-500 rounded-md space-x-2 flex items-center justify-center"
         >

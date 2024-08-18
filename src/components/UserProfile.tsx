@@ -79,6 +79,7 @@ const UserProfile = () => {
             <UpdateBio
               closeDialog={setShowBioPopUp}
               refetchProfile={refetchProfile}
+              bio={profile?.bio || ""}
             />
           </div>,
           document.body,

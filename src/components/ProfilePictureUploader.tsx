@@ -13,6 +13,7 @@ const ProfilePictureUploader = ({
   refetchProfile: () => void;
   closeDialog: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const controllerRef = useRef<AbortController>(new AbortController());
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -55,6 +56,7 @@ const ProfilePictureUploader = ({
       });
       const { url } = result.data as { url: string };
       await axios.put(url, selectedFile, {
+        signal: controllerRef.current.signal,
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(progressEvent.progress! * 100);
           setUploadProgress(percentCompleted);
@@ -69,7 +71,7 @@ const ProfilePictureUploader = ({
       closeDialog(false);
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.error(error.response?.data.message);
+        toast.error(error.response?.data.message || `Upload cancelled`);
         return;
       }
       return toast.error("Something Went Wrong");
@@ -82,7 +84,11 @@ const ProfilePictureUploader = ({
       <div className="flex justify-end">
         <div
           className="p-1 rounded-full bg-zinc-100 cursor-pointer"
-          onClick={() => closeDialog((prev) => !prev)}
+          onClick={() => {
+            controllerRef.current.abort();
+            controllerRef.current = new AbortController();
+            closeDialog(false);
+          }}
         >
           <X size={16} className="text-black" />
         </div>
