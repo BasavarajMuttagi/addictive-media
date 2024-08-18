@@ -6,11 +6,14 @@ import toast from "react-hot-toast";
 import axios, { isAxiosError } from "axios";
 import apiClient from "../axios/apiClient";
 import { X, CircleNotch } from "@phosphor-icons/react";
+import { poll } from "../axios/common";
 
 const UploadForm = ({
   closeDialog,
+  refetch,
 }: {
   closeDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => void;
 }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -59,9 +62,15 @@ const UploadForm = ({
           console.log(`Upload Progress: ${percentCompleted}%`);
         },
       });
-      reset();
-      clearSelection();
-      closeDialog(false);
+
+      await poll(2000, 10, "video", {
+        ...data,
+      }).then(() => {
+        reset();
+        clearSelection();
+        refetch();
+        closeDialog(false);
+      });
     } catch (error) {
       if (isAxiosError(error)) {
         toast.error(error.response?.data.message);

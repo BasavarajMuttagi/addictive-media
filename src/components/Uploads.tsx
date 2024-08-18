@@ -24,6 +24,9 @@ const Uploads = () => {
     setVideos(result.data);
   };
 
+  const refetchVideos = () => {
+    getAllVideos();
+  };
   useEffect(() => {
     getAllVideos();
   }, []);
@@ -59,7 +62,10 @@ const Uploads = () => {
       {showUploadPopUp &&
         createPortal(
           <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 p-3">
-            <UploadForm closeDialog={setShowUploadPopUp} />
+            <UploadForm
+              closeDialog={setShowUploadPopUp}
+              refetch={refetchVideos}
+            />
           </div>,
           document.body,
         )}
