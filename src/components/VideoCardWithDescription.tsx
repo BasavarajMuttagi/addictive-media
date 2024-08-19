@@ -8,10 +8,7 @@ const VideoCardWithDescription = ({
   const URL = `${import.meta.env.VITE_CLOUDFRONT_BASE_URL}/${folder}`;
   return (
     <div className="flex items-center space-x-4 p-1 cursor-pointer">
-      <video
-        onClick={() => window.open(URL)}
-        className="aspect-video h-[100px] rounded-md"
-      >
+      <video className="aspect-video h-[100px] rounded-md">
         <source src={URL} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
