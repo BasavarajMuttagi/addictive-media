@@ -24,18 +24,18 @@ const FileUploadSchema = z.object({
   title: z
     .string()
     .min(1, "Title is required")
-    .max(30, "Title is too long, expeced 30 characters"),
+    .max(30, "Title is too long, expected 30 characters"),
   description: z
     .string()
     .min(1, "Description is required")
-    .max(120, "Description is too long, expeced 120 characters"),
+    .max(120, "Description is too long, expected 120 characters"),
 });
 
 const bioSchema = z.object({
   bio: z
     .string()
     .min(1, "bio is required")
-    .max(500, "bio is too long, expeced 500 characters"),
+    .max(500, "bio is too long, expected 500 characters"),
 });
 
 type bioType = z.infer<typeof bioSchema>;
