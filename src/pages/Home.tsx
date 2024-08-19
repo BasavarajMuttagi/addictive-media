@@ -58,7 +58,10 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-10 overflow-x-auto">
+              <div
+                className="flex items-center space-x-10 overflow-x-auto"
+                style={{ scrollbarWidth: "none" }}
+              >
                 {eachGroup.videos.map((eachVideo) => (
                   <VideoCardWithTitle key={eachVideo._id} {...eachVideo} />
                 ))}
