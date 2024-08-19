@@ -5,15 +5,23 @@ import ProfilePictureUploader from "./ProfilePictureUploader";
 import UpdateBio from "./UpdateBio";
 import apiClient from "../axios/apiClient";
 import { Profile } from "../types";
+import ProfileSK from "../skeletons/ProfileSK";
 export const defaultAvatar = "https://avatar.iran.liara.run/public/35";
 const UserProfile = () => {
   const [showUploadPopUp, setShowUploadPopUp] = useState(false);
   const [showBioPopUp, setShowBioPopUp] = useState(false);
   const [profile, setProfile] = useState<Profile>();
-
+  const [isLoading, setIsLoading] = useState(false);
   const getProfile = async () => {
-    const result = await apiClient.get("/auth/getProfile");
-    setProfile(result.data);
+    try {
+      setIsLoading(true);
+      const result = await apiClient.get("/auth/getProfile");
+      setProfile(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const refetchProfile = () => {
@@ -22,6 +30,10 @@ const UserProfile = () => {
   useEffect(() => {
     getProfile();
   }, []);
+
+  if (isLoading) {
+    return <ProfileSK />;
+  }
 
   const URL = `${import.meta.env.VITE_CLOUDFRONT_BASE_URL}/${profile?.photoUrl}`;
   return (
