@@ -1,28 +1,42 @@
+import { Link } from "react-router-dom";
+import VideoCardWithTitle from "../components/VideoCardWithTitle";
+import HomeSK from "../skeletons/HomeSK";
 import { useState, useEffect } from "react";
 import apiClient from "../axios/apiClient";
-import { VideoGroup } from "../types";
-import VideoCardWithTitle from "../components/VideoCardWithTitle";
 import { defaultAvatar } from "../components/UserProfile";
-import { Link } from "react-router-dom";
+import { VideoGroup } from "../types";
 
 const Home = () => {
   const [videos, setVideos] = useState<VideoGroup[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const getVideoListWithUser = async () => {
-    const result = await apiClient.get("/video/getVideoListWithUser");
-    setVideos(result.data);
+    try {
+      setIsLoading(true);
+      const result = await apiClient.get("/video/getVideoListWithUser");
+      setVideos(result.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     getVideoListWithUser();
   }, []);
 
+  if (isLoading) {
+    return <HomeSK />;
+  }
+
   return (
     <div className="p-5 w-full">
-      <div className="space-y-10 ">
+      <div className="space-y-10">
         {videos.map((eachGroup) => {
           const URL = `${import.meta.env.VITE_CLOUDFRONT_BASE_URL}/${eachGroup.user.photoUrl}`;
           return (
-            <div key={eachGroup.user._id} className="space-y-5 ">
+            <div key={eachGroup.user._id} className="space-y-5">
               <div className="flex items-center space-x-2">
                 <img
                   src={eachGroup.user.photoUrl ? URL : defaultAvatar}
