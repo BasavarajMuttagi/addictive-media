@@ -18,11 +18,11 @@ const Home = () => {
 
   return (
     <div className="p-5 w-full">
-      <div className="space-y-10">
+      <div className="space-y-10 ">
         {videos.map((eachGroup) => {
           const URL = `${import.meta.env.VITE_CLOUDFRONT_BASE_URL}/${eachGroup.user.photoUrl}`;
           return (
-            <div className="space-y-5">
+            <div key={eachGroup.user._id} className="space-y-5 ">
               <div className="flex items-center space-x-2">
                 <img
                   src={eachGroup.user.photoUrl ? URL : defaultAvatar}
@@ -44,12 +44,9 @@ const Home = () => {
                 </div>
               </div>
 
-              <div
-                className="flex items-center space-x-10 overflow-x-scroll"
-                style={{ scrollbarWidth: "none" }}
-              >
+              <div className="flex items-center space-x-10 overflow-x-auto">
                 {eachGroup.videos.map((eachVideo) => (
-                  <VideoCardWithTitle {...eachVideo} />
+                  <VideoCardWithTitle key={eachVideo._id} {...eachVideo} />
                 ))}
               </div>
             </div>

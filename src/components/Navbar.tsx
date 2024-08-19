@@ -13,7 +13,7 @@ const Navbar = () => {
       </Link>
 
       <div className="flex items-center space-x-8 text-white">
-        <div className="inline-flex items-center font-medium space-x-1 has-[a.active]:text-blue-500">
+        <div className="inline-flex items-center font-medium space-x-1 hover:text-blue-500 has-[a.active]:text-blue-500">
           <NavLink to={"/profile"}>Profile</NavLink>
           <ArrowUpRight size={20} />
         </div>
